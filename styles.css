@@ -1,0 +1,288 @@
+:root {
+  color-scheme: light;
+  font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+  background-color: #f6f8ff;
+  color: #1f2a44;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background: radial-gradient(circle at top, #ffffff 0%, #dfe8ff 70%);
+}
+
+.scene {
+  width: min(900px, 100%);
+  background: #ffffffcc;
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 30px 60px rgba(31, 42, 68, 0.15);
+  display: grid;
+  gap: 24px;
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 360px;
+  background: linear-gradient(180deg, #e7efff 0%, #fefefe 100%);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.speech-bubble {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 80%;
+  padding: 16px 20px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(31, 42, 68, 0.12);
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 12px 10px 0 10px;
+  border-style: solid;
+  border-color: #ffffff transparent transparent transparent;
+}
+
+.character {
+  position: relative;
+  width: 160px;
+  height: 220px;
+  animation: bounce 2.2s ease-in-out infinite;
+}
+
+.head {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  background: #ffcf6e;
+  border-radius: 36px 36px 32px 32px;
+  transform: translateX(-50%);
+  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eye {
+  position: absolute;
+  top: 46px;
+  width: 16px;
+  height: 22px;
+  border-radius: 8px;
+  background: #2a2a2a;
+  animation: blink 4.5s infinite;
+}
+
+.eye-left {
+  left: 36px;
+}
+
+.eye-right {
+  right: 36px;
+}
+
+.mouth {
+  position: absolute;
+  bottom: 28px;
+  width: 36px;
+  height: 12px;
+  border-radius: 0 0 18px 18px;
+  border: 3px solid #2a2a2a;
+  border-top: none;
+  animation: talk 0.9s ease-in-out infinite;
+}
+
+.body {
+  position: absolute;
+  top: 110px;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  transform: translateX(-50%);
+  border-radius: 24px;
+  background: #7ea3ff;
+  box-shadow: inset 0 -10px 0 rgba(0, 0, 0, 0.08);
+}
+
+.arm {
+  position: absolute;
+  top: 128px;
+  width: 60px;
+  height: 20px;
+  background: #7ea3ff;
+  border-radius: 14px;
+  transform-origin: 10px 10px;
+  animation: wave 2s ease-in-out infinite;
+}
+
+.arm-left {
+  left: -8px;
+  transform: rotate(12deg);
+}
+
+.arm-right {
+  right: -8px;
+  transform: rotate(-12deg);
+  animation-delay: 0.2s;
+}
+
+.leg {
+  position: absolute;
+  bottom: 0;
+  width: 24px;
+  height: 60px;
+  background: #4f6dd3;
+  border-radius: 16px;
+  animation: step 1.6s ease-in-out infinite;
+}
+
+.leg-left {
+  left: 48px;
+}
+
+.leg-right {
+  right: 48px;
+  animation-delay: 0.3s;
+}
+
+.controls {
+  display: grid;
+  gap: 12px;
+}
+
+.controls label {
+  font-weight: 600;
+}
+
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+input[type="text"] {
+  flex: 1 1 240px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid #d0d8f7;
+  outline: none;
+  box-shadow: 0 6px 18px rgba(126, 163, 255, 0.16);
+}
+
+input[type="text"]:focus {
+  border-color: #7ea3ff;
+  box-shadow: 0 0 0 4px rgba(126, 163, 255, 0.2);
+}
+
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: #4f6dd3;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(79, 109, 211, 0.3);
+}
+
+.hint {
+  margin: 0;
+  color: #51618f;
+  font-size: 0.95rem;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  92%,
+  96% {
+    transform: scaleY(0.2);
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-14deg);
+  }
+}
+
+@keyframes talk {
+  0%,
+  100% {
+    height: 10px;
+  }
+  50% {
+    height: 18px;
+  }
+}
+
+@keyframes step {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 640px) {
+  .scene {
+    padding: 24px;
+  }
+
+  .stage {
+    min-height: 320px;
+  }
+
+  .speech-bubble {
+    max-width: 90%;
+  }
+}

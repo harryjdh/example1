@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>움직이는 캐릭터 대화</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="scene">
+      <section class="stage">
+        <div class="speech-bubble" id="speechBubble" aria-live="polite">
+          안녕! 나에게 하고 싶은 말을 입력해줘.
+        </div>
+        <div class="character" aria-label="움직이는 캐릭터">
+          <div class="head">
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+            <div class="mouth"></div>
+          </div>
+          <div class="body"></div>
+          <div class="arm arm-left"></div>
+          <div class="arm arm-right"></div>
+          <div class="leg leg-left"></div>
+          <div class="leg leg-right"></div>
+        </div>
+      </section>
+      <section class="controls">
+        <label for="userText">내가 말하고 싶은 문장</label>
+        <div class="input-row">
+          <input
+            id="userText"
+            type="text"
+            placeholder="예: 오늘 기분이 좋아!"
+            autocomplete="off"
+          />
+          <button id="speakButton" type="button">말해줘</button>
+        </div>
+        <p class="hint">
+          입력한 문장이 말풍선에 표시되고, 브라우저가 허용하면 음성으로도 읽어줘요.
+        </p>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
