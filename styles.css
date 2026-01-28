@@ -66,106 +66,16 @@ body {
 
 .character {
   position: relative;
-  width: 160px;
-  height: 220px;
+  width: 200px;
+  height: 260px;
   animation: bounce 2.2s ease-in-out infinite;
 }
 
-.head {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 120px;
-  height: 120px;
-  background: #ffcf6e;
-  border-radius: 36px 36px 32px 32px;
-  transform: translateX(-50%);
-  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.eye {
-  position: absolute;
-  top: 46px;
-  width: 16px;
-  height: 22px;
-  border-radius: 8px;
-  background: #2a2a2a;
-  animation: blink 4.5s infinite;
-}
-
-.eye-left {
-  left: 36px;
-}
-
-.eye-right {
-  right: 36px;
-}
-
-.mouth {
-  position: absolute;
-  bottom: 28px;
-  width: 36px;
-  height: 12px;
-  border-radius: 0 0 18px 18px;
-  border: 3px solid #2a2a2a;
-  border-top: none;
-  animation: talk 0.9s ease-in-out infinite;
-}
-
-.body {
-  position: absolute;
-  top: 110px;
-  left: 50%;
-  width: 90px;
-  height: 90px;
-  transform: translateX(-50%);
-  border-radius: 24px;
-  background: #7ea3ff;
-  box-shadow: inset 0 -10px 0 rgba(0, 0, 0, 0.08);
-}
-
-.arm {
-  position: absolute;
-  top: 128px;
-  width: 60px;
-  height: 20px;
-  background: #7ea3ff;
-  border-radius: 14px;
-  transform-origin: 10px 10px;
-  animation: wave 2s ease-in-out infinite;
-}
-
-.arm-left {
-  left: -8px;
-  transform: rotate(12deg);
-}
-
-.arm-right {
-  right: -8px;
-  transform: rotate(-12deg);
-  animation-delay: 0.2s;
-}
-
-.leg {
-  position: absolute;
-  bottom: 0;
-  width: 24px;
-  height: 60px;
-  background: #4f6dd3;
-  border-radius: 16px;
-  animation: step 1.6s ease-in-out infinite;
-}
-
-.leg-left {
-  left: 48px;
-}
-
-.leg-right {
-  right: 48px;
-  animation-delay: 0.3s;
+.character-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 24px rgba(255, 163, 209, 0.35));
 }
 
 .controls {
@@ -231,47 +141,6 @@ button:hover {
   }
 }
 
-@keyframes blink {
-  0%,
-  90%,
-  100% {
-    transform: scaleY(1);
-  }
-  92%,
-  96% {
-    transform: scaleY(0.2);
-  }
-}
-
-@keyframes wave {
-  0%,
-  100% {
-    transform: rotate(10deg);
-  }
-  50% {
-    transform: rotate(-14deg);
-  }
-}
-
-@keyframes talk {
-  0%,
-  100% {
-    height: 10px;
-  }
-  50% {
-    height: 18px;
-  }
-}
-
-@keyframes step {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
 
 @media (max-width: 640px) {
   .scene {
