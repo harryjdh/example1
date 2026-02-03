@@ -3,39 +3,95 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>움직이는 캐릭터 대화</title>
+    <title>다마코치 UI 플로우</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <main class="scene">
-      <section class="stage">
-        <div class="speech-bubble" id="speechBubble" aria-live="polite">
-          안녕! 나에게 하고 싶은 말을 입력해줘.
+    <div id="app" class="app">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Damakochi</p>
+          <h1>다마코치 모바일 플로우</h1>
+          <p class="subtitle">
+            캐릭터 케어부터 성향 분석, 퀘스트까지 이어지는 여정 UI를 Vue.js로
+            시각화했습니다.
+          </p>
         </div>
-        <div class="character" aria-label="귀여운 캐릭터">
-          <img
-            class="character-image"
-            src="data:image/svg+xml,%3Csvg%20width%3D%22240%22%20height%3D%22300%22%20viewBox%3D%220%200%20240%20300%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Crect%20x%3D%2240%22%20y%3D%2260%22%20width%3D%22160%22%20height%3D%22180%22%20rx%3D%2280%22%20fill%3D%22%23FFE6F2%22/%3E%3Cpath%20d%3D%22M80%2070%20L50%2030%20L100%2050%20Z%22%20fill%3D%22%23FFD4E6%22/%3E%3Cpath%20d%3D%22M160%2070%20L190%2030%20L140%2050%20Z%22%20fill%3D%22%23FFD4E6%22/%3E%3Ccircle%20cx%3D%2290%22%20cy%3D%22140%22%20r%3D%2212%22%20fill%3D%22%23333333%22/%3E%3Ccircle%20cx%3D%22150%22%20cy%3D%22140%22%20r%3D%2212%22%20fill%3D%22%23333333%22/%3E%3Ccircle%20cx%3D%2286%22%20cy%3D%22136%22%20r%3D%224%22%20fill%3D%22white%22/%3E%3Ccircle%20cx%3D%22146%22%20cy%3D%22136%22%20r%3D%224%22%20fill%3D%22white%22/%3E%3Cpath%20d%3D%22M120%20160%20C112%20168%20108%20176%20120%20184%20C132%20176%20128%20168%20120%20160Z%22%20fill%3D%22%23FF8DBA%22/%3E%3Cpath%20d%3D%22M90%20180%20C100%20194%20140%20194%20150%20180%22%20stroke%3D%22%23333333%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2276%22%20cy%3D%22180%22%20r%3D%2216%22%20fill%3D%22%23FFC7DD%22/%3E%3Ccircle%20cx%3D%22164%22%20cy%3D%22180%22%20r%3D%2216%22%20fill%3D%22%23FFC7DD%22/%3E%3Cpath%20d%3D%22M70%20230%20C90%20260%20150%20260%20170%20230%22%20stroke%3D%22%23FFB3D1%22%20stroke-width%3D%2218%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E"
-            alt="미소 짓는 귀여운 고양이 캐릭터"
-          />
-        </div>
+        <button class="primary" type="button">프로토타입 보기</button>
+      </header>
+
+      <section class="screen-grid">
+        <article
+          v-for="screen in screens"
+          :key="screen.id"
+          class="phone"
+          :class="{ tall: screen.tall }"
+        >
+          <div class="phone-header">
+            <span v-if="screen.back" class="back">←</span>
+            <h2>{{ screen.title }}</h2>
+            <span class="status">●●●</span>
+          </div>
+          <div class="phone-body">
+            <div v-if="screen.hero" class="hero-figure">
+              <img :src="screen.hero" :alt="screen.title" />
+              <span class="hero-tag">{{ screen.tag }}</span>
+            </div>
+
+            <div v-if="screen.form" class="form">
+              <label v-for="field in screen.form" :key="field" class="field">
+                <span>{{ field }}</span>
+                <div class="input"></div>
+              </label>
+            </div>
+
+            <ul v-if="screen.list" class="menu">
+              <li v-for="item in screen.list" :key="item">
+                <span>{{ item }}</span>
+                <span class="chevron">›</span>
+              </li>
+            </ul>
+
+            <div v-if="screen.chips" class="chips">
+              <span v-for="chip in screen.chips" :key="chip" class="chip">
+                {{ chip }}
+              </span>
+            </div>
+
+            <div v-if="screen.progress" class="progress">
+              <div
+                v-for="step in screen.progress"
+                :key="step.label"
+                class="progress-row"
+              >
+                <span>{{ step.label }}</span>
+                <div class="dots">
+                  <span
+                    v-for="dot in step.dots"
+                    :key="dot"
+                    class="dot"
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-footer">
+            <button class="ghost" type="button">{{ screen.cta }}</button>
+            <nav class="nav">
+              <span v-for="nav in 4" :key="nav" class="nav-dot"></span>
+            </nav>
+          </div>
+        </article>
       </section>
-      <section class="controls">
-        <label for="userText">내가 말하고 싶은 문장</label>
-        <div class="input-row">
-          <input
-            id="userText"
-            type="text"
-            placeholder="예: 오늘 기분이 좋아!"
-            autocomplete="off"
-          />
-          <button id="speakButton" type="button">말해줘</button>
-        </div>
-        <p class="hint">
-          입력한 문장이 말풍선에 표시되고, 브라우저가 허용하면 음성으로도 읽어줘요.
-        </p>
-      </section>
-    </main>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
