@@ -1,28 +1,250 @@
-const speechBubble = document.getElementById("speechBubble");
-const userText = document.getElementById("userText");
-const speakButton = document.getElementById("speakButton");
+const { createApp } = Vue;
 
-const updateSpeech = () => {
-  const message = userText.value.trim();
-  if (!message) {
-    speechBubble.textContent = "무슨 말을 하고 싶은지 알려줘!";
-    userText.focus();
-    return;
-  }
-
-  speechBubble.textContent = message;
-
-  if ("speechSynthesis" in window) {
-    const utterance = new SpeechSynthesisUtterance(message);
-    utterance.lang = "ko-KR";
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
-  }
-};
-
-speakButton.addEventListener("click", updateSpeech);
-userText.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    updateSpeech();
-  }
-});
+createApp({
+  data() {
+    return {
+      viewMode: "app",
+      screens: [
+        {
+          id: "home",
+          title: "다마코치",
+          description: "첫 진입 화면에서 캐릭터와 핵심 액션을 배치합니다.",
+          back: false,
+          cta: "로그인",
+          hero:
+            "data:image/svg+xml,%3Csvg%20width%3D%22160%22%20height%3D%22200%22%20viewBox%3D%220%200%20160%20200%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Crect%20x%3D%2230%22%20y%3D%2230%22%20width%3D%22100%22%20height%3D%22140%22%20rx%3D%2250%22%20fill%3D%22%23FAD9C4%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2280%22%20r%3D%228%22%20fill%3D%22%236D4B3D%22/%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2280%22%20r%3D%228%22%20fill%3D%22%236D4B3D%22/%3E%3Cpath%20d%3D%22M60%20100%20C70%20110%2090%20110%20100%20100%22%20stroke%3D%22%236D4B3D%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%22105%22%20r%3D%2210%22%20fill%3D%22%23F5B9A6%22/%3E%3Ccircle%20cx%3D%22112%22%20cy%3D%22105%22%20r%3D%2210%22%20fill%3D%22%23F5B9A6%22/%3E%3Cpath%20d%3D%22M40%20140%20C60%20165%20100%20165%20120%20140%22%20stroke%3D%22%23F0BFA5%22%20stroke-width%3D%2212%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E",
+          tag: "나만의 친구",
+          web: {
+            title: "랜딩 대시보드",
+            badge: "Onboarding",
+            summary: "핵심 가치와 최신 공지, 빠른 시작 동선을 웹에서 제공.",
+            cards: [
+              { title: "핵심 기능", body: "케어, 분석, 퀘스트 요약" },
+              { title: "오늘의 추천", body: "맞춤형 루틴 카드" },
+              { title: "커뮤니티", body: "친구 초대와 소식" },
+            ],
+            cta: "웹 시작하기",
+          },
+        },
+        {
+          id: "login",
+          title: "로그인",
+          description: "간단한 로그인 폼과 캐릭터 환영 이미지를 구성합니다.",
+          back: true,
+          cta: "로그인",
+          hero:
+            "data:image/svg+xml,%3Csvg%20width%3D%22140%22%20height%3D%22140%22%20viewBox%3D%220%200%20140%20140%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Ccircle%20cx%3D%2270%22%20cy%3D%2270%22%20r%3D%2250%22%20fill%3D%22%23FFE2C6%22/%3E%3Ccircle%20cx%3D%2255%22%20cy%3D%2265%22%20r%3D%226%22%20fill%3D%22%236D4B3D%22/%3E%3Ccircle%20cx%3D%2285%22%20cy%3D%2265%22%20r%3D%226%22%20fill%3D%22%236D4B3D%22/%3E%3Cpath%20d%3D%22M55%2085%20C65%2095%2075%2095%2085%2085%22%20stroke%3D%22%236D4B3D%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2245%22%20cy%3D%2285%22%20r%3D%227%22%20fill%3D%22%23F5B9A6%22/%3E%3Ccircle%20cx%3D%2295%22%20cy%3D%2285%22%20r%3D%227%22%20fill%3D%22%23F5B9A6%22/%3E%3C/svg%3E",
+          tag: "다마코치",
+          form: ["이메일", "비밀번호"],
+          web: {
+            title: "로그인 센터",
+            badge: "Access",
+            summary: "소셜 로그인/OTP 안내와 계정 복구 링크 제공.",
+            cards: [
+              { title: "간편 로그인", body: "카카오, 구글, 애플" },
+              { title: "보안 설정", body: "2단계 인증 안내" },
+              { title: "회원 지원", body: "계정 복구 가이드" },
+            ],
+            cta: "로그인 계속",
+          },
+        },
+        {
+          id: "signup",
+          title: "회원가입",
+          description: "필수 정보를 입력하고 약관 동의 화면을 분리합니다.",
+          back: true,
+          cta: "가입하기",
+          form: ["이름", "생년월일", "이메일", "비밀번호", "성별"],
+          web: {
+            title: "가입 대시보드",
+            badge: "Join",
+            summary: "웹에서는 가입 혜택과 튜토리얼을 함께 노출합니다.",
+            cards: [
+              { title: "가입 혜택", body: "신규 포인트 제공" },
+              { title: "튜토리얼", body: "3분 온보딩 안내" },
+              { title: "약관 요약", body: "핵심 정책 요약" },
+            ],
+            cta: "가입 완료",
+          },
+        },
+        {
+          id: "main",
+          title: "다마코치 홈",
+          description: "캐릭터 상태와 주요 메뉴를 한눈에 볼 수 있는 홈.",
+          back: true,
+          cta: "상태 확인",
+          hero:
+            "data:image/svg+xml,%3Csvg%20width%3D%22140%22%20height%3D%22140%22%20viewBox%3D%220%200%20140%20140%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Ccircle%20cx%3D%2270%22%20cy%3D%2270%22%20r%3D%2248%22%20fill%3D%22%23FCE9D7%22/%3E%3Ccircle%20cx%3D%2256%22%20cy%3D%2265%22%20r%3D%226%22%20fill%3D%22%236D4B3D%22/%3E%3Ccircle%20cx%3D%2284%22%20cy%3D%2265%22%20r%3D%226%22%20fill%3D%22%236D4B3D%22/%3E%3Cpath%20d%3D%22M56%2086%20C66%2096%2074%2096%2084%2086%22%20stroke%3D%22%236D4B3D%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E",
+          tag: "케어 진행중",
+          list: ["오늘의 케어", "친구 상호작용", "육성 스토리", "알림함"],
+          web: {
+            title: "홈 대시보드",
+            badge: "Overview",
+            summary: "성장 지표와 캘린더, 친구 리스트를 함께 노출.",
+            cards: [
+              { title: "성장 그래프", body: "주간 성장 추이" },
+              { title: "케어 일정", body: "오늘의 루틴 체크" },
+              { title: "친구 활동", body: "최근 교류 요약" },
+            ],
+            cta: "대시보드 보기",
+          },
+        },
+        {
+          id: "analysis",
+          title: "성향 분석",
+          description: "분석 시작 화면에서 캐릭터와 CTA를 강조합니다.",
+          back: true,
+          cta: "시작",
+          hero:
+            "data:image/svg+xml,%3Csvg%20width%3D%22140%22%20height%3D%22140%22%20viewBox%3D%220%200%20140%20140%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Ccircle%20cx%3D%2270%22%20cy%3D%2270%22%20r%3D%2248%22%20fill%3D%22%23D4E6F8%22/%3E%3Cpath%20d%3D%22M50%2070%20C60%2060%2080%2060%2090%2070%22%20stroke%3D%22%232B3A55%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2258%22%20cy%3D%2260%22%20r%3D%226%22%20fill%3D%22%232B3A55%22/%3E%3Ccircle%20cx%3D%2282%22%20cy%3D%2260%22%20r%3D%226%22%20fill%3D%22%232B3A55%22/%3E%3Cpath%20d%3D%22M50%2095%20C60%20105%2080%20105%2090%2095%22%20stroke%3D%22%232B3A55%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E",
+          tag: "성향 분석 시작하기",
+          web: {
+            title: "분석 준비",
+            badge: "Insight",
+            summary: "웹에서는 분석 개요와 예상 소요 시간을 표시합니다.",
+            cards: [
+              { title: "진행 시간", body: "약 3분" },
+              { title: "분석 항목", body: "취향/에너지/가치관" },
+              { title: "준비사항", body: "최근 활동 기록" },
+            ],
+            cta: "분석 시작",
+          },
+        },
+        {
+          id: "input",
+          title: "성향 분석 입력",
+          description: "분석을 위한 입력 방식(YouTube, 테스트, 기록)을 구분.",
+          back: true,
+          cta: "다음",
+          chips: ["YouTube에서 내 취향을 알려요", "취향 테스트", "나만의 기록"],
+          web: {
+            title: "입력 방식 선택",
+            badge: "Choice",
+            summary: "웹에서는 가이드 영상과 분석 샘플을 제공합니다.",
+            cards: [
+              { title: "영상 연결", body: "YouTube 동기화" },
+              { title: "빠른 테스트", body: "10문항 요약" },
+              { title: "직접 입력", body: "상세 취향 기록" },
+            ],
+            cta: "입력 계속",
+          },
+        },
+        {
+          id: "profile",
+          title: "성향 분석 입력",
+          description: "기본 정보를 먼저 입력하여 맞춤 결과를 준비합니다.",
+          back: true,
+          cta: "다음",
+          form: ["이름", "나이", "취미", "음악 취향", "MBTI"],
+          web: {
+            title: "프로필 설정",
+            badge: "Profile",
+            summary: "웹에서는 프로필 템플릿을 제공해 입력 시간을 단축.",
+            cards: [
+              { title: "기본 정보", body: "닉네임, 나이, 성별" },
+              { title: "취향 태그", body: "선호 장르 선택" },
+              { title: "MBTI", body: "유형 추천 카드" },
+            ],
+            cta: "프로필 저장",
+          },
+        },
+        {
+          id: "survey",
+          title: "성향 분석 입력",
+          description: "세부 문항을 단계별로 보여주고 진행 상태를 표시.",
+          back: true,
+          cta: "완료",
+          tall: true,
+          progress: [
+            { label: "1. 취향 키워드", dots: Array(7).fill("dot") },
+            { label: "2. 선호 장르", dots: Array(7).fill("dot") },
+            { label: "3. 감성 지수", dots: Array(7).fill("dot") },
+            { label: "4. 에너지 레벨", dots: Array(7).fill("dot") },
+            { label: "5. 성장 목표", dots: Array(7).fill("dot") },
+            { label: "6. 일상 루틴", dots: Array(7).fill("dot") },
+            { label: "7. 몰입 환경", dots: Array(7).fill("dot") },
+            { label: "8. 관계 성향", dots: Array(7).fill("dot") },
+            { label: "9. 휴식 방식", dots: Array(7).fill("dot") },
+            { label: "10. 가치관", dots: Array(7).fill("dot") },
+          ],
+          web: {
+            title: "상세 설문",
+            badge: "Survey",
+            summary: "웹에서는 응답 히스토리와 추천 답변을 함께 제공합니다.",
+            cards: [
+              { title: "진행률", body: "70% 완료" },
+              { title: "추천 답변", body: "유사 사용자 패턴" },
+              { title: "중간 저장", body: "자동 저장 활성" },
+            ],
+            cta: "설문 저장",
+          },
+        },
+        {
+          id: "result",
+          title: "성향 분석 결과",
+          description: "분석 결과 카드와 다음 행동을 보여줍니다.",
+          back: true,
+          cta: "저장",
+          hero:
+            "data:image/svg+xml,%3Csvg%20width%3D%22140%22%20height%3D%22140%22%20viewBox%3D%220%200%20140%20140%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Ccircle%20cx%3D%2270%22%20cy%3D%2270%22%20r%3D%2248%22%20fill%3D%22%23FFEFE7%22/%3E%3Ccircle%20cx%3D%2256%22%20cy%3D%2265%22%20r%3D%226%22%20fill%3D%22%236D4B3D%22/%3E%3Ccircle%20cx%3D%2284%22%20cy%3D%2265%22%20r%3D%226%22%20fill%3D%22%236D4B3D%22/%3E%3Cpath%20d%3D%22M56%2085%20C66%2095%2074%2095%2084%2085%22%20stroke%3D%22%236D4B3D%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2246%22%20cy%3D%2285%22%20r%3D%227%22%20fill%3D%22%23F5B9A6%22/%3E%3Ccircle%20cx%3D%2294%22%20cy%3D%2285%22%20r%3D%227%22%20fill%3D%22%23F5B9A6%22/%3E%3C/svg%3E",
+          tag: "온화한 토끼형",
+          list: ["성향 분석", "취향 분석", "육성 가이드", "나의 기록"],
+          web: {
+            title: "결과 리포트",
+            badge: "Report",
+            summary: "웹에서는 결과 비교, 다운로드, 공유 옵션을 제공합니다.",
+            cards: [
+              { title: "성향 요약", body: "강점/주의 포인트" },
+              { title: "추천 루틴", body: "일일 추천 루틴" },
+              { title: "비교 차트", body: "친구와 비교" },
+            ],
+            cta: "리포트 다운로드",
+          },
+        },
+        {
+          id: "quest",
+          title: "퀘스트",
+          description: "일일/주간 퀘스트를 정리하고 진행 배지를 표시.",
+          back: true,
+          cta: "참여",
+          chips: ["신규", "일일", "주간"],
+          list: [
+            "미션을 완료하고 포인트 받기",
+            "친구와 교류하며 레벨업",
+            "나만의 기록 추가하기",
+          ],
+          web: {
+            title: "퀘스트 센터",
+            badge: "Mission",
+            summary: "웹에서는 필터, 검색, 완료 이력 확인 기능 제공.",
+            cards: [
+              { title: "오늘의 미션", body: "3개 진행 중" },
+              { title: "완료 보상", body: "포인트/아이템" },
+              { title: "친구 도전", body: "공동 미션" },
+            ],
+            cta: "퀘스트 관리",
+          },
+        },
+        {
+          id: "calendar",
+          title: "퀘스트 히스토리",
+          description: "캘린더 기반으로 퀘스트 히스토리를 확인합니다.",
+          back: true,
+          cta: "보기",
+          form: ["캘린더", "상세 기록", "보상 내역"],
+          web: {
+            title: "히스토리 보관함",
+            badge: "Archive",
+            summary: "월간 달력과 통계 리포트로 성취도를 시각화합니다.",
+            cards: [
+              { title: "월간 성취", body: "완료율 82%" },
+              { title: "상세 기록", body: "퀘스트별 메모" },
+              { title: "보상 로그", body: "아이템 사용 내역" },
+            ],
+            cta: "히스토리 보기",
+          },
+        },
+      ],
+    };
+  },
+}).mount("#app");
